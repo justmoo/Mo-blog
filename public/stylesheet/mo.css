@@ -180,11 +180,12 @@ background-image: url("https://images.unsplash.com/photo-1423666639041-f56000c27
     
 }
 
-@media (max-width: 767px) {
+@media (max-width:767px) {
 .servicespage1 ,.servicespage2, .servicespage3 ,.servicespage4 , .aboutpage , .aboutpage1 , .aboutpage2 , .aboutpage3,
 .aboutpage4 ,.contactpage {
 
-   background-attachment: scroll;
+ background-attachment: scroll !important;
+   
 
 }
 
