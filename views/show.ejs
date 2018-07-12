@@ -1,0 +1,52 @@
+<%- include('partials/header')-%>
+<body>
+    
+    
+
+<div>
+
+<div data-aos="fade-left" data-aos-duration="1000" class="card mb-3">
+    
+    
+    
+    	<div data-aos="fade-up" data-aos-duration="1700"  class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h4 class="card-title mt-4 "> <%= Blog.title %> </h4>
+       
+        
+       
+    
+
+    
+  <img class="card-img-top mt-4" src="<%=Blog.image%>" alt="Card image cap"> 
+    
+    <p class="card-text"> <%= Blog.body %> </p>
+   
+    
+   <p class="card-text"><small class="text-muted"> Created : <%= Blog.date %></small></p>
+   
+   <a href="/blogs/<%=Blog._id%>/edit" class="btn btn-primary  active" role="button" aria-pressed="true">Edit the Blog</a> 
+   
+   <form id="delete" action="/blogs/<%=Blog.id%>?_method=DELETE" method="POST">
+       
+       <button class="btn btn-danger  "  active type="submit" >Delete</button>
+        </form>
+   
+   <a class="btn btn-info btn-lg btn-block mt-2" href="/blogs" role="button">Go back</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%- include('partials/footer')-%>
