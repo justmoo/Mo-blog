@@ -179,3 +179,11 @@ background-image: url("https://images.unsplash.com/photo-1423666639041-f56000c27
     padding: 10px !important ;
     
 }
+
+@media (max-width: 767px) {
+#ci-hero-11 .widget-wrap , #ci-hero-12 .widget-wrap {
+
+    background-attachment: initial;
+
+}
+}
