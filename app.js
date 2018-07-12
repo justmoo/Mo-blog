@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 
 // mongoose.connect('mongodb://localhost/Blog');
 
-mongoose.connect('mongodb://Moo:12334455a@ds263740.mlab.com:63740/mo-blog');
+mongoose.connect('process.env.DATABASEURL');
 
 
 
