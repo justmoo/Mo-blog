@@ -181,9 +181,11 @@ background-image: url("https://images.unsplash.com/photo-1423666639041-f56000c27
 }
 
 @media (max-width: 767px) {
-#ci-hero-11 .widget-wrap , #ci-hero-12 .widget-wrap {
+.servicespage1 .servicespage2 .servicespage3 .servicespage4 .aboutpage .aboutpage1 .aboutpage2 .aboutpage3
+.aboutpage4 .contactpage {
 
-    background-attachment: initial;
+   background-attachment: scroll;
 
 }
+
 }
