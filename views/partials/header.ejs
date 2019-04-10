@@ -28,19 +28,27 @@
 		    </div>
 
 		<!--right side botten-->
-	
-		<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+	<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
 		   
         <ul class="navbar-nav ml-auto">
+          <% if(!currentUser){ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% }else{ %>
             
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
+             <li class="nav-item">
+              <a class="nav-link" href="/logout"> Logout </a>
+               
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/new">Sign Up</a>
-            </li>
+                <a class="nav-link" href="/user/<%=currentUser.id%>"><%=currentUser.username%></a>
+               
+            <!--</li>-->
+             <% } %>
         </ul>
     </div>
+		
     <!--right side botten-->
     </div>
 </nav>

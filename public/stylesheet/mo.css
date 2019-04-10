@@ -171,14 +171,29 @@ background-image: url("https://images.unsplash.com/photo-1423666639041-f56000c27
     
     color: #C8C8C8 !important;
     padding: 5px!important;
+    transition: 0.5s;
+    
     
 }
 .footer ul li a:hover {
-    
+    transition: 0.5s;
     color: #585858 !important;
     padding: 10px !important ;
     
 }
+
+#login-page
+{
+    margin-top: 200px !important;
+}
+#register-page
+{
+    margin-top: 200px !important;
+}
+.imageHome{
+    height: auto;
+}
+
 
 @media (max-width:767px) {
 .servicespage1 ,.servicespage2, .servicespage3 ,.servicespage4 , .aboutpage , .aboutpage1 , .aboutpage2 , .aboutpage3,

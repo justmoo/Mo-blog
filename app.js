@@ -2,13 +2,17 @@ var express = require('express');
 var app = express();
 var methodOverride = require("method-override");
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require("passport-local");
 var bodyParser = require("body-parser");
+var User = require('./models/User');
+var link =  ; // Your database link
 
 
 
-// mongoose.connect('mongodb://localhost/Blog');
+ mongoose.connect(link);
 
-mongoose.connect(process.env.DATABASEURL);
+// mongoose.connect(process.env.DATABASEURL);
 
 
 
@@ -34,33 +38,58 @@ var Schema = mongoose.Schema;
       favs:  Number
     }
   });
+
   var Blog = mongoose.model('Blog', blogSchema);
+
   
-//  var  blog1 = new Blog({
-//     title:  "Blog3",
-//     author:"me , DUwdaH2",
-//     body:   "hey vsause1"
-//  });
 
-//  blog1.save(function(err , blog1){
-//      if (err){
-         
-//          console.log(err);
-         
-//      }else{
-         
-//          console.log("it worked somehow");
-//      }
-     
-//  });
  
- 
+// passport config
+app.use(require('express-session')({
+    secret:'Hey its me mario',
+    resave:false,
+    saveUninitialized:false
+    
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-
-
+app.use(function(req,res,next){
+    
+    res.locals.currentUser = req.user;
+    next();
+});
 // routes
 app.get('/', function (req, res) {
   res.render("index");
+});
+app.get('/register',isLoggedIn, function (req, res) {
+ res.render('register');
+});
+app.post('/register',isLoggedIn, function (req, res) {
+var newUser = new User({username:req.body.username ,email:req.body.email} );
+User.register(newUser,req.body.password ,function(err,user){
+    if(err){
+        console.log(err);
+        return res.redirect('/register');
+        
+    }else {
+        passport.authenticate('local')(req,res,function(){
+            
+            res.redirect('/blogs');
+        });
+    }
+    
+});
+});
+app.get('/login', function (req, res) {
+  res.render("login");
+});
+app.post('/login', passport.authenticate('local',{ successRedirect:'/blogs', failureRedirect:'/login'} ) , function (req, res) {
+  
 });
 app.get('/about', function (req, res) {
     res.render("about");
@@ -87,7 +116,7 @@ app.get('/blogs', function (req, res) {
     });
     
     
-    app.get('/blogs/new', function(req, res) {
+    app.get('/blogs/new',isLoggedIn ,function(req, res) {
      
      res.render('new');
      
@@ -108,7 +137,7 @@ app.get('/blogs', function (req, res) {
    
  });
  
- app.get('/blogs/:id/edit', function (req, res) {
+ app.get('/blogs/:id/edit',isLoggedIn, function (req, res) {
      
  Blog.findById(req.params.id,function(err ,Blog){
      
@@ -123,8 +152,8 @@ app.get('/blogs', function (req, res) {
    
  });
  
-//  here <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
- app.put("/blogs/:id", function(req , res){
+
+ app.put("/blogs/:id",isLoggedIn, function(req , res){
      
     Blog.findByIdAndUpdate(req.params.id, req.body.Blog ,function(err , Blog){
         
@@ -141,14 +170,14 @@ app.get('/blogs', function (req, res) {
  });
     
  // saving the blogs   
- app.post("/blogs", function(req ,res){
+ app.post("/blogs",isLoggedIn, function(req ,res){
      
      var title = req.body.title;
-     var auther = req.body.auther;
+     var author = req.body.author;
      var body = req.body.body;
      var image = req.body.image;
     
-     var newBlog = new Blog ({title : title , body : body , auther : auther , image : image });
+     var newBlog = new Blog ({title : title , body : body , author : author , image : image });
      
      
     //  Blog.push(newBlog); doesn't work so .save is used 
@@ -176,22 +205,35 @@ app.get('/blogs', function (req, res) {
     
  });
  
- app.delete("/blogs/:id", function(req , res){
+ app.delete("/blogs/:id",isLoggedIn, function(req , res){
      
      Blog.findByIdAndRemove(req.params.id , function(err){
          if (err){
          console.log(err);
          }else{
-             console.log("We lost a POST :((")
+             console.log("We lost a POST :((");
              res.redirect("/blogs");
              
          }
      });
      
  });
+ 
     
+app.get('/logout', function (req, res) {
+req.logout();
+res.redirect('/');
+});
 
-
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+        
+    }else{
+        res.redirect('/login');
+    }
+    
+}
 
 
 

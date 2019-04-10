@@ -23,7 +23,8 @@
 <div data-aos="fade-left" data-aos-duration="1000" class="card mb-3">
   <img class="card-img-top" src="<%=Blog.image%>" alt="Card image cap"> 
     <h4 class="card-title"> <%= Blog.title %> </h4>
-    <p class="card-text"> <%= Blog.body.substring(0,190) %>... </p>
+    <p class="card-text"> <%- Blog.body.substring(0,190) %>... </p>
+       <p class="card-text"> <%= Blog.author %> </p>
     <a class="btn btn-primary " href="/blogs/<%=Blog._id%>" role="button">Read more.</a>
     
     <p class="card-text"><small class="text-muted"> Created : <%= Blog.date %></small></p>
